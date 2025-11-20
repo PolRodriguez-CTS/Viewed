@@ -1,10 +1,12 @@
 using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.InputSystem;
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance {get ; private set; }
 
+    [SerializeField] private InputActionAsset _inputActionAsset;
     public GameObject numberCanvas;
     public Text numberText;
     private string numberCorrect = 9358.ToString();
@@ -65,24 +67,21 @@ public class UIManager : MonoBehaviour
         dialogeText.SetActive(false);
     }
 
-    /*void NumberCorrect()
+    public void NumerCorrect()
     {
+        numberCanvas.SetActive(false);
+        _inputActionAsset.FindActionMap("UI").Disable();
+        _inputActionAsset.FindActionMap("Player").Enable();
         if(numberText.text == numberCorrect)
         {
-            StartCoroutine(CorrectNumber(4));
+            StartCoroutine(CorrectNumber(1));
         }
     }
     IEnumerator CorrectNumber(int tiempo)
     {
-
         yield return new WaitForSeconds(tiempo);
-        //Abre la puerta
 
+        Door _doorScript = GameObject.FindAnyObjectByType<Door>();
+        _doorScript.OpenDoor();
     }
-    IEnumerator Desaparecer()
-    {
-        yield return new WaitForSeconds(2);
-        DialogeInvisivle();
-    }*/
-
 }

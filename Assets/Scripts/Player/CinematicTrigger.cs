@@ -18,7 +18,8 @@ public class CinematicTrigger : MonoBehaviour
         {
             _inputActionAsset.FindActionMap("Player").Disable();
             _director.SetActive(true);
-
         }
     }
+
+   
 }

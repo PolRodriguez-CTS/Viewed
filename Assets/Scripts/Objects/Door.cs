@@ -12,6 +12,10 @@ public class Door : MonoBehaviour
     public void OpenDoor()
     {
         _animator.SetTrigger("openDoor");
+    }
+
+    public void OpenDoorSound()
+    {
         SoundManager.Instance.PlaySFX(SoundManager.Instance._doorSFX);
     }
 }

@@ -22,6 +22,4 @@ public class CinematicTrigger : MonoBehaviour
             _director.SetActive(true);
         }
     }
-
-   
 }

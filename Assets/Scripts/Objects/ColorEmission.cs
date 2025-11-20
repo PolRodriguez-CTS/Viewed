@@ -6,6 +6,8 @@ public class ColorEmission : MonoBehaviour
     public MeshRenderer meshRenderer;
     public Material materials;
 
+    public Color _color = Color.white;
+
 
     public bool rangeEmission = false;
     public float numberEmission = 0f;
@@ -38,7 +40,7 @@ public class ColorEmission : MonoBehaviour
         numberEmission = Mathf.Clamp(numberEmission, 0f, 2f);
 
 
-        materials.SetColor("_EmissionColor", Color.white * numberEmission);
+        materials.SetColor("_EmissionColor", _color * numberEmission);
     }
 
     void OnTriggerEnter(Collider other)

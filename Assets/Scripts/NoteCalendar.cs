@@ -14,7 +14,6 @@ public class NoteCalendar : MonoBehaviour
     {
         if(GameManager.Instance.youSeeSisterNote == true)
         {
-            SoundManager.Instance.PlaySFX(SoundManager.Instance._canvasNoteSFX);
             _animator.SetTrigger("IsSeen");
             _colorEmission.enabled = false;
         }

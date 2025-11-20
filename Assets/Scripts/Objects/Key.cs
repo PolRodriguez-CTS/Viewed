@@ -2,6 +2,13 @@ using UnityEngine;
 
 public class Key : MonoBehaviour, IGrabeable
 {
+
+    public void Start()
+    {
+        ColorEmission _emissionScript = GetComponent<ColorEmission>();
+        _emissionScript._color = Color.white;
+    }
+
     public void Grab()
     {
         SoundManager.Instance.PlaySFX(SoundManager.Instance._keySFX);

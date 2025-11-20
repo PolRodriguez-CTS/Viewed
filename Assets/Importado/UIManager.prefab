@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 28209ce9f25c9354388c42d777e0992b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _inputActionAsset: {fileID: -944628639613478452, guid: 289c1b55c9541489481df5cc06664110, type: 3}
   numberCanvas: {fileID: 0}
   numberText: {fileID: 0}
   dialogText: {fileID: 0}

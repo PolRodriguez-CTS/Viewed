@@ -37,7 +37,7 @@ public class SisterNote : MonoBehaviour, IGrabeable, IInteractable
             _inputActionAsset.FindActionMap("UI").Enable();
             GameManager.Instance.youSeeSisterNote = true;
             StartCoroutine(UIManager.Instance.DialogeVisible(6));
-            UIManager.Instance.DialogText("¡Ay va! ¡Es verdad! No me acordaba del cumpleaños de la tía Lucy.");
+            UIManager.Instance.DialogText("¡Ay va! ¡Es verdad! No me acordaba del cumpleaños de la tía Emma.");
         }
     }
 
@@ -87,7 +87,7 @@ public class SisterNote : MonoBehaviour, IGrabeable, IInteractable
                 _inputActionAsset.FindActionMap("Player").Disable();
                 canva = true;
                 StartCoroutine(UIManager.Instance.DialogeVisible(6));
-                UIManager.Instance.DialogText("¡Ay va! ¡Es verdad! No me acordaba del cumpleaños de la tía Lucy.");
+                UIManager.Instance.DialogText("¡Ay va! ¡Es verdad! No me acordaba del cumpleaños de la tía Emma.");
             }
         }
     }

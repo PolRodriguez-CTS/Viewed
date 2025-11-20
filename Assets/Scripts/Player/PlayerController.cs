@@ -1,0 +1,245 @@
+using System;
+using System.Collections;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+public class PlayerController : MonoBehaviour
+{
+    //Components
+    //------------------------------------------------
+    private CharacterController _characterController;
+    //------------------------------------------------
+
+    //Inputs
+    //------------------------------------------------
+    private Vector2 _moveValue;
+    private InputAction _moveAction;
+    public Vector2 _lookValue;
+    private InputAction _lookAction;
+    private InputAction _crouchAction;
+    private InputAction _grabAction;
+    private InputAction _interactAction;
+    //------------------------------------------------
+
+    //Movement
+    //------------------------------------------------
+    private float playerSpeed = 5f;
+    //------------------------------------------------
+
+    //Camera
+    //------------------------------------------------
+    [SerializeField] private Transform _mainCamera;
+    [SerializeField] private Transform _cameraHolder;
+    private float _cameraSens = 20f;
+    private float _xRotation;
+    //------------------------------------------------
+
+    //Crouch
+    //------------------------------------------------
+    [SerializeField] private float _crouchSpeed = 5f;
+    [SerializeField] private float _cameraStandY = 0.9f;
+    [SerializeField] private float _cameraCrouchY = 0.2f;
+
+    public bool _isCrouched = false;
+    private float _targetY;
+
+    //Grab
+    [SerializeField] private Vector3 _grabSensorSize;
+    [SerializeField] private Transform _grabSensor;
+    [SerializeField] private Transform _hands;
+    [SerializeField] private Vector3 _handsSize;
+    //Transfomr del objeto grabeado
+    public Transform _grabbedObject;
+    [SerializeField] public GameObject key;
+    
+    //Gravedad
+    [SerializeField] private float _gravity = -9.81f;
+    [SerializeField] private Vector3 _playerGravity;
+
+    //Pasos
+    [SerializeField] private float stepInterval = 0.4f;
+    private float stepTimer = 0f;
+
+
+
+
+    void Awake()
+    {
+        //Components
+        _characterController = GetComponent<CharacterController>();
+
+        //Inputs
+        _moveAction = InputSystem.actions["Move"];
+        _crouchAction = InputSystem.actions["Crouch"];
+        _grabAction = InputSystem.actions["Grab"];
+        _interactAction = InputSystem.actions["Interact"];
+        _lookAction = InputSystem.actions["Look"];
+    }
+
+    void Start()
+    {
+        _targetY = _cameraStandY;
+        _cameraHolder.localPosition = new Vector3(0, _cameraStandY, 0);
+
+        //Queda intentar que al iniciar la cámara no mire hacia abajo
+        //_xRotation = _cameraHolder.localRotation.eulerAngles.x;
+    }
+
+    void Update()
+    {
+        _moveValue = _moveAction.ReadValue<Vector2>();
+        _lookValue = _lookAction.ReadValue<Vector2>();
+
+        Movement();
+
+        if (_crouchAction.WasPressedThisFrame())
+        {
+            _isCrouched = !_isCrouched;
+
+            if (_isCrouched)
+            {
+                _targetY = _cameraCrouchY;
+            }
+
+            else
+            {
+                _targetY = _cameraStandY;
+            }
+        }
+
+        float newY = Mathf.MoveTowards(_cameraHolder.localPosition.y, _targetY, _crouchSpeed * Time.deltaTime);
+        _cameraHolder.localPosition = new Vector3(0, newY, 0);
+
+        if(_grabAction.WasPressedThisFrame())
+        {
+            GrabObject();
+        }
+
+        if(_interactAction.WasPressedThisFrame())
+        {
+            Interact();
+        }
+
+        CharacterGravity();
+    }
+
+    void Movement()
+    {
+        Vector3 direction = new Vector3(_moveValue.x, 0, _moveValue.y);
+
+        float mouseX = _lookValue.x * _cameraSens * Time.deltaTime;
+        float mouseY = _lookValue.y * _cameraSens * Time.deltaTime;
+
+        _xRotation -= mouseY;
+        _xRotation = Mathf.Clamp(_xRotation, -90, 90);
+
+        //Yaw
+        transform.Rotate(Vector3.up, mouseX);
+
+        //Pitch
+        _cameraHolder.localRotation = Quaternion.Euler(_xRotation, 0, 0);
+
+        if(direction != Vector3.zero)
+        {
+            
+            float targetAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg + _mainCamera.eulerAngles.y;
+            Vector3 moveDirection = Quaternion.Euler(0, targetAngle, 0) * Vector3.forward;
+            _characterController.Move(moveDirection * playerSpeed * Time.deltaTime);
+            
+            stepTimer -= Time.deltaTime;
+            
+            if(stepTimer <= 0f)
+            {
+                SoundManager.Instance.StepSFX(SoundManager.Instance._stepsSFX);
+                stepTimer = stepInterval;
+            }
+        }
+        else
+        {
+            stepTimer = 0;
+        }
+    }
+    
+    /*void ToggleCrouch()
+    {
+        if (!_isCrouched)
+        {
+            float newHeight = Mathf.Lerp(_cameraStandY, _cameraCrouchY, _crouchSpeed * Time.deltaTime);
+            _cameraHolder.localPosition = new Vector3(0, -newHeight, 0);
+        }
+        else if (_isCrouched)
+        {
+            _cameraHolder.localPosition = new Vector3(0, _cameraStandY, 0);
+        }
+    }*/
+
+    public void GrabObject()
+    {
+        if(_grabbedObject == null)
+        {
+            Collider[] objectsToGrab = Physics.OverlapBox(_grabSensor.position, _grabSensorSize);
+
+            foreach(Collider item in objectsToGrab)
+            {
+                IGrabeable grabeable = item.GetComponent<IGrabeable>();
+                ColorEmission _emissionScript = item.GetComponent<ColorEmission>();
+
+                if(grabeable != null && item.gameObject.layer == 6)
+                {
+                    _emissionScript.isColored = true;
+                    grabeable.Grab();
+                    _grabbedObject = item.transform;
+                    _grabbedObject.SetParent(_hands);
+                    _grabbedObject.position = _hands.position;
+                    _grabbedObject.rotation = _hands.rotation;
+                    _grabbedObject.GetComponent<Rigidbody>().isKinematic = true;
+                }
+            }
+        }
+
+        else
+        {
+            //SoundManager.Instance.PlaySFX(SoundManager.Instance._dropObjectSFX);
+            ColorEmission _emissionScript = _grabbedObject.gameObject.GetComponent<ColorEmission>();
+            _emissionScript.isColored = false;
+
+            IGrabeable grabeable = _grabbedObject.gameObject.GetComponent<IGrabeable>();
+            grabeable.Drop();
+            _grabbedObject.SetParent(null);
+            _grabbedObject.GetComponent<Rigidbody>().isKinematic = false;
+            _grabbedObject = null;
+        }
+    }
+
+    private void Interact()
+    {
+        Collider[] objectsToInteract = Physics.OverlapBox(_grabSensor.position, _grabSensorSize);
+
+        foreach(Collider item in objectsToInteract)
+        {
+            IInteractable interactable = item.GetComponent<IInteractable>();
+            ColorEmission _emissionScript = item.GetComponent<ColorEmission>();
+
+            if(interactable != null)
+            {
+                interactable.Interact();
+            }
+        }
+    }
+
+    void OnDrawGizmos()
+    {
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireCube(_hands.position, _handsSize);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(_grabSensor.position, _grabSensorSize);
+    }
+
+    void CharacterGravity()
+    {
+        _playerGravity.y = _gravity;
+        _characterController.Move(_playerGravity * Time.deltaTime);
+    }
+}

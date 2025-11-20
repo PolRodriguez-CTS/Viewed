@@ -1,8 +1,12 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
+using JetBrains.Annotations;
 public class MenuManager : MonoBehaviour
 {
     public static MenuManager Instance { get; private set; }
+
+    [SerializeField] private InputActionAsset _inputActionAsset;
 
     void Awake()
     {
@@ -38,18 +42,17 @@ public class MenuManager : MonoBehaviour
             Debug.Log("MenuPrincipal");
             SoundManager.Instance.PlayBGM(SoundManager.Instance._staticBgm);
         }
-        if(sceneName == "Testeo")
+        if(sceneName == "Nivel")
         {
             Debug.Log("Escena1");
             SoundManager.Instance.PlayBGM(SoundManager.Instance._bgmClip);
         }
-
-        //Añadir escena de nivel
-        /*
-        if(sceneName == Nivel)
-        {
-            SoundManager.Instance.PlayBGM(SoundManager.Instance._bgmClip);
-        }
-        */
     }
+
+    public void InputReset()
+    {
+        _inputActionAsset.FindActionMap("UI").Enable();
+        _inputActionAsset.FindActionMap("Player").Enable();
+    }
+
 }

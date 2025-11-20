@@ -74,7 +74,14 @@ public class UIManager : MonoBehaviour
         _inputActionAsset.FindActionMap("Player").Enable();
         if(numberText.text == numberCorrect)
         {
+            StartCoroutine(DialogeVisible(5));
+            DialogText("Me siento vigilado...");
+            SoundManager.Instance.PlaySFX(SoundManager.Instance._correctSFX);
             StartCoroutine(CorrectNumber(0.5f));
+        }
+        else
+        {
+            SoundManager.Instance.PlaySFX(SoundManager.Instance._incorrectSFX);
         }
     }
     IEnumerator CorrectNumber(float tiempo)

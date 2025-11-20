@@ -245,4 +245,9 @@ public class PlayerController : MonoBehaviour
         _playerGravity.y = _gravity;
         _characterController.Move(_playerGravity * Time.deltaTime);
     }
+
+    public void FinishedGame()
+    {
+        MenuManager.Instance.ChangeScene("MainMenu");
+    }
 }

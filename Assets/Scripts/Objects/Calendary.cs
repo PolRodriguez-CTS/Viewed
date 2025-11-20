@@ -14,9 +14,10 @@ public class Calendary : MonoBehaviour, IInteractable
             isActive = !isActive;
             if(isActive)
             {
+                SoundManager.Instance.PlaySFX(SoundManager.Instance._canvasNoteSFX);
                 _inputActionAsset.FindActionMap("Player").Disable();
                 _inputActionAsset.FindActionMap("UI").Enable();
-        
+      
                 _emissionScript.rangeEmission = false;
                 UIManager.Instance.momNote.SetActive(false);
                 UIManager.Instance.sisterNote.SetActive(false);
@@ -26,6 +27,7 @@ public class Calendary : MonoBehaviour, IInteractable
             }
             else if(!isActive)
             {
+                SoundManager.Instance.PlaySFX(SoundManager.Instance._canvasNoteSFX);
                 _inputActionAsset.FindActionMap("UI").Disable();
                 _inputActionAsset.FindActionMap("Player").Enable();
                 

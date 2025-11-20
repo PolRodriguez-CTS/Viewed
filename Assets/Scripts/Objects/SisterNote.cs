@@ -13,9 +13,7 @@ public class SisterNote : MonoBehaviour, IGrabeable, IInteractable
             ColorEmission _emissionScript = GetComponent<ColorEmission>();
 
             canva = true;
-
-            SoundManager.Instance.PlaySFX(SoundManager.Instance._canvasNoteSFX);
-
+            Debug.Log(SoundManager.Instance._canvasNoteSFX);
             _emissionScript.rangeEmission = false;
             UIManager.Instance.sisterNote.SetActive(true);
             _inputActionAsset.FindActionMap("Player").Disable();
@@ -32,7 +30,7 @@ public class SisterNote : MonoBehaviour, IGrabeable, IInteractable
         {
             ColorEmission _emissionScript = GetComponent<ColorEmission>();
 
-            SoundManager.Instance.PlaySFX(SoundManager.Instance._canvasNoteSFX);
+            //SoundManager.Instance.PlaySFX(SoundManager.Instance._canvasNoteSFX);
 
             _inputActionAsset.FindActionMap("UI").Disable();
             _inputActionAsset.FindActionMap("Player").Enable();
@@ -51,7 +49,7 @@ public class SisterNote : MonoBehaviour, IGrabeable, IInteractable
         {
             if(canva == true)
             {
-                SoundManager.Instance.PlaySFX(SoundManager.Instance._canvasNoteSFX);
+                //SoundManager.Instance.PlaySFX(SoundManager.Instance._canvasNoteSFX);
                 
                 UIManager.Instance.sisterNote.SetActive(false);
                 UIManager.Instance.momNote.SetActive(false);
@@ -62,7 +60,7 @@ public class SisterNote : MonoBehaviour, IGrabeable, IInteractable
         }
         else if(canva == false)
             {
-                SoundManager.Instance.PlaySFX(SoundManager.Instance._canvasNoteSFX);
+                //SoundManager.Instance.PlaySFX(SoundManager.Instance._canvasNoteSFX);
 
                 UIManager.Instance.momNote.SetActive(false);
                 UIManager.Instance.calendar.SetActive(false);

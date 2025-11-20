@@ -18,6 +18,8 @@ public class SoundManager : MonoBehaviour
     public AudioClip _canvasNoteSFX;
     public AudioClip _pelotaSFX;
     public AudioClip _cajaJuguetesSFX;
+    public AudioClip _correctSFX;
+    public AudioClip _incorrectSFX;
 
     void Awake()
     {

@@ -74,10 +74,10 @@ public class UIManager : MonoBehaviour
         _inputActionAsset.FindActionMap("Player").Enable();
         if(numberText.text == numberCorrect)
         {
-            StartCoroutine(CorrectNumber(1));
+            StartCoroutine(CorrectNumber(0.5f));
         }
     }
-    IEnumerator CorrectNumber(int tiempo)
+    IEnumerator CorrectNumber(float tiempo)
     {
         yield return new WaitForSeconds(tiempo);
 

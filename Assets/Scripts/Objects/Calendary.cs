@@ -6,6 +6,20 @@ public class Calendary : MonoBehaviour, IInteractable
     private bool isActive = false;
     [SerializeField] private InputActionAsset _inputActionAsset;
 
+    public void Start()
+    {
+        ColorEmission _emissionScript = GetComponent<ColorEmission>();
+        _emissionScript._color = Color.red;
+    }
+
+    void Update()
+    {
+        if(GameManager.Instance.youSeeSisterNote == true)
+        {
+            ColorEmission _emissionScript = GetComponent<ColorEmission>();
+            _emissionScript._color = Color.white;
+        }
+    }
     public void Interact()
     {
         if(GameManager.Instance.youSeeSisterNote == true)

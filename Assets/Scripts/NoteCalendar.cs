@@ -10,6 +10,11 @@ public class NoteCalendar : MonoBehaviour
         _colorEmission = GetComponent<ColorEmission>();
         _animator = GetComponent<Animator>();
     }
+
+    void Start()
+    {
+        _colorEmission._color = Color.red;        
+    }
     void Update()
     {
         if(GameManager.Instance.youSeeSisterNote == true)

@@ -250,4 +250,20 @@ public class PlayerController : MonoBehaviour
     {
         MenuManager.Instance.ChangeScene("MainMenu");
     }
+
+    //Cinematica
+    public void PortazoSFX()
+    {
+        SoundManager.Instance.PlaySFX(SoundManager.Instance._closeDoorSFX);
+    }
+
+    public void GolpeSFX()
+    {
+        SoundManager.Instance.PlaySFX(SoundManager.Instance._hitSFX);
+    }
+
+    public void EscalerasSFX()
+    {
+        SoundManager.Instance.PlaySFX(SoundManager.Instance._stairStepsSFX);
+    }
 }

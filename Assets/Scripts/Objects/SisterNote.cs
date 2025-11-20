@@ -79,6 +79,7 @@ public class SisterNote : MonoBehaviour, IGrabeable, IInteractable
             {
                 SoundManager.Instance.PlaySFX(SoundManager.Instance._canvasNoteSFX);
 
+                GameManager.Instance.youSeeSisterNote = true;
                 UIManager.Instance.momNote.SetActive(false);
                 UIManager.Instance.calendar.SetActive(false);
                 UIManager.Instance.sisterNote.SetActive(true);

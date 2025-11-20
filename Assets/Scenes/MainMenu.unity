@@ -648,6 +648,9 @@ MonoBehaviour:
   _cajaJuguetesSFX: {fileID: 8300000, guid: 3a47925bc8e1d5c4ebdf2d0d46ca82b9, type: 3}
   _correctSFX: {fileID: 8300000, guid: 5e1928f5a3aaa39438d6dfd47637c688, type: 3}
   _incorrectSFX: {fileID: 8300000, guid: c62e610cd393c3c4090de29c7cbd9649, type: 3}
+  _closeDoorSFX: {fileID: 8300000, guid: 830e393037a14824581e556bb4c28d1a, type: 3}
+  _stairStepsSFX: {fileID: 8300000, guid: 4e572cacc1d2bba4cb12e68a2c1ffb33, type: 3}
+  _hitSFX: {fileID: 8300000, guid: d4c37c92b66a70a4b89f38f7436c5268, type: 3}
 --- !u!4 &1013542674
 Transform:
   m_ObjectHideFlags: 0

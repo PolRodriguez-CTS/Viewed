@@ -6,6 +6,7 @@ public class CinematicTrigger : MonoBehaviour
     public GameObject _director;
     private Transform _animationStartPosition;
     [SerializeField] private InputActionAsset _inputActionAsset;
+    public GameObject controlCanvas; 
 
     private void Awake()
     {
@@ -16,6 +17,7 @@ public class CinematicTrigger : MonoBehaviour
     {
         if(other.gameObject.tag == "Player")
         {
+            controlCanvas.SetActive(false);
             _inputActionAsset.FindActionMap("Player").Disable();
             _director.SetActive(true);
         }

@@ -2,6 +2,22 @@ using UnityEngine;
 
 public class Trash : MonoBehaviour
 {
+    
+    public void Start()
+    {
+        ColorEmission _emissionScript = GetComponentInParent<ColorEmission>();
+        _emissionScript._color = Color.red;
+    }
+
+    void Update()
+    {
+        if(GameManager.Instance.youSeeNote == true)
+        {
+            ColorEmission _emissionScript = GetComponentInParent<ColorEmission>();
+            _emissionScript._color = Color.white;
+        }
+    }
+    
     void OnTriggerEnter(Collider other)
     {
         if(other.gameObject.tag == "Toy")
